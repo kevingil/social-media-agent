@@ -45,18 +45,19 @@ class Agent:
             [
                 (
                     "system",
-                    """You are a social media content creator AI agent. Your task is to generate a text post for {target_platform}.
-                    The purpose of this social media campagin, is to {purpose}.
-                    Use the described image to create a short and engagin social media post.
-                    The user would also like you to: {prompt}.""",
+                    """You are a social media AI agent. Your task is to generate a short text post for {target_platform}.
+                    We are marketing {purpose}.
+                    Use the described image to create a short and engagin social media post about the product. 
+                    Additionaly details: {prompt}.
+                    Reply with only the short text post. Do not used banned words. <banned-words>elevate, transform</banned-words>.
+                    """,
                 ),
                 (
                     "human",
                     """
                     Image Description: {media_description}
-                    Reply with only the short text post:
                     """,
-                ),
+                )
             ]
         )
         post_text_chain = prompt | self.llm
