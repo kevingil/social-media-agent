@@ -3,41 +3,43 @@
 {% block title %}Sign up{% endblock %}
 <!-- fi -->
 {% block content %}
-<div>
-  <h1>FastAPI Form</h1>
-</div>
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-6 text-center">Sign Up</h1>
 
-<form method="post" action="/user-processing">
-  <div>
-    <label for="firstname">First name</label>
-    <input name="first_name" type="text" id="firstname" required />
-  </div>
-  <div>
-    <label for="last_name">Last name</label>
-    <input name="last_name" type="text" id="last_name" required />
-  </div>
-  <div>
-    <label for="username">Username</label>
-    <span>@</span>
-    <input name="username" type="text" id="username" required />
-  </div>
-  <div>
-    <label for="country">Country</label>
-    <select name="country" id="country" required>
-      <option selected disabled value="">Choose...</option>
-      <option value="Argentina">Argentina</option>
-      <option value="Canada">Canada</option>
-      <option value="Colombia">Colombia</option>
-      <option value="United States">UU.EE</option>
-      <option value="Venezuela">Venezuela</option>
-    </select>
-  </div>
-  <div>
-    <label for="password">Password</label>
-    <input name="password" type="password" id="password" required />
-  </div>
-  <div>
-    <button type="submit">Send Data</button>
-  </div>
-</form>
+  <form method="post" action="/user-processing" class="space-y-4">
+    <div>
+      <label for="firstname" class="block text-gray-700">First name</label>
+      <input name="first_name" type="text" id="firstname" required class="w-full px-4 py-2 border rounded focus:outline-none focus:border-red-600" />
+    </div>
+    <div>
+      <label for="last_name" class="block text-gray-700">Last name</label>
+      <input name="last_name" type="text" id="last_name" required class="w-full px-4 py-2 border rounded focus:outline-none focus:border-red-600" />
+    </div>
+    <div>
+      <label for="username" class="block text-gray-700">Username</label>
+      <div class="flex items-center">
+        <span class="mr-2">@</span>
+        <input name="username" type="text" id="username" required class="w-full px-4 py-2 border rounded focus:outline-none focus:border-red-600" />
+      </div>
+    </div>
+    <div>
+      <label for="country" class="block text-gray-700">Country</label>
+      <select name="country" id="country" required class="w-full px-4 py-2 border rounded focus:outline-none focus:border-red-600">
+        <option selected disabled value="">Choose...</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Canada">Canada</option>
+        <option value="Colombia">Colombia</option>
+        <option value="United States">UU.EE</option>
+        <option value="Venezuela">Venezuela</option>
+      </select>
+    </div>
+    <div>
+      <label for="password" class="block text-gray-700">Password</label>
+      <input name="password" type="password" id="password" required class="w-full px-4 py-2 border rounded focus:outline-none focus:border-red-600" />
+    </div>
+    <div>
+      <button type="submit" class="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Sign Up</button>
+    </div>
+  </form>
+</div>
 {% endblock %}

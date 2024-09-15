@@ -1,10 +1,10 @@
-from handle_db import HandleDataBase
+from database.user import UserQueries
 from werkzeug.security import generate_password_hash
 
 
 class User:
     def __init__(self, user_data):
-        self.db = HandleDataBase()
+        self.db = UserQueries()
         self.user_data = user_data
 
     def create_user(self):

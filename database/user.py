@@ -1,9 +1,9 @@
 from sqlite3 import connect
 
 
-class HandleDataBase:
+class UserQueries:
     def __init__(self):
-        self._connection = connect("./users.db")
+        self._connection = connect("./database.db")
         self._cursor = self._connection.cursor()
 
     def get_all(self):

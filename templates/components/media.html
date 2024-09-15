@@ -1,0 +1,18 @@
+<form hx-post="{{ url_for('media_upload') }}" hx-target="#media-container" hx-swap="innerHTML" enctype="multipart/form-data" method="post"
+ class="flex flex-row gap-4 w-full justify-between">
+    <div class="flex flex-col">
+        <input type="hidden" name="campaign_id" value="{% if campaign  %}{{ campaign.id }}{% else %}{{ campaign_id }}{% endif %}">
+        <label for="media" class="font-medium mb-1">Upload Media:</label>
+        <input type="file" class="border border-gray-300 rounded-md px-3 py-2" id="media" name="files" multiple>
+    </div>
+    <div class="flex items-end">
+        <button type="submit" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-4 rounded py-2">Upload Media</button>
+    </div>
+</form>
+<div class="grid grid-cols-4 gap-2 mt-8">
+    {% for media in media_list %}
+    <div class="">
+        <img src="{{ media.key }}" class="w-full rounded"/>
+    </div>
+    {% endfor %}
+</div>

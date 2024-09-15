@@ -1,8 +1,22 @@
-<header>
-  <nav>
-    <form>
-      <a href="{{ url_for ('login') }}">Home</a>
-      <a href="{{ url_for ('signup') }}">Sign Up</a>
-    </form>
-  </nav>
+<header class="bg-red-600 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">
+        <a href="/" class="cursor-pointer">
+        Social Agent
+        </a>
+      </h1>
+      <nav>
+          <ul class="flex space-x-4">
+              {% if request.session.get('user') %}
+              <li><a class="ml-4" href="/logout">Logout</a></li>
+              <li><a href="{{ url_for ('dashboard') }}"
+                class="p-2 bg-red-700 border border-red-700 text-white font-semibold rounded-lg hover:bg-red-800">Dashboard</a></li>
+              {% else %}
+              <li><a href="{{ url_for ('login') }}">Login</a></li>
+              <li><a href="{{ url_for ('signup') }}">Sign Up</a></li>
+              {% endif %}
+
+          </ul>
+      </nav>
+  </div>
 </header>

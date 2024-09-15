@@ -1,9 +1,9 @@
-from handle_db import HandleDataBase
+from database.user import UserQueries
 from werkzeug.security import check_password_hash
 
 
 def check_user(username: str, password: str):
-    user_db = HandleDataBase()
+    user_db = UserQueries()
     user = user_db.get_user(username)
 
     if user:

@@ -1,53 +1,44 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
-from user import User
-from check_password import check_user
+from fastapi import FastAPI
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.authentication import AuthenticationMiddleware
+from starlette.authentication import (
+    AuthCredentials, AuthenticationBackend, AuthenticationError, SimpleUser
+)
+from fastapi.staticfiles import StaticFiles
+from controllers import user, campaign, media, post
+
+import base64
+import binascii
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="./templates")
+
+class BasicAuthBackend(AuthenticationBackend):
+    async def authenticate(self, conn):
+        if "Authorization" not in conn.headers:
+            return
+
+        auth = conn.headers["Authorization"]
+        try:
+            scheme, credentials = auth.split()
+            if scheme.lower() != 'basic':
+                return
+            decoded = base64.b64decode(credentials).decode("ascii")
+        except (ValueError, UnicodeDecodeError, binascii.Error) as exc:
+            raise AuthenticationError('Invalid basic auth credentials')
+
+        username, _, password = decoded.partition(":")
+        # TODO: You'd want to verify the username and password here.
+        return AuthCredentials(["authenticated"]), SimpleUser(username)
 
 
-@app.get("/login", name="login", response_class=HTMLResponse)
-@app.post("/login", name="login", response_class=HTMLResponse)
-def root(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="secret")
+app.add_middleware(AuthenticationMiddleware, backend=BasicAuthBackend())
+
+app.include_router(user.router)
+app.include_router(campaign.router)
+app.include_router(media.router)
+app.include_router(post.router)
 
 
-@app.post("/user", name="user_index")
-def user(request: Request, username: str = Form(), password: str = Form()):
-    user = check_user(username, password)
-    if user:
-        return templates.TemplateResponse(
-            "user.html", {"request": request, "user_data": user}
-        )
-
-    return RedirectResponse("/login")
-
-
-@app.get("/signup", name="signup", response_class=HTMLResponse)
-def signup(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
-
-
-@app.post("/user-processing", response_class=RedirectResponse)
-def user_processing(
-    username: str = Form(),
-    first_name: str = Form(),
-    last_name: str = Form(),
-    country: str = Form(),
-    password: str = Form(),
-):
-    user_data = {
-        "username": username,
-        "first_name": first_name,
-        "last_name": last_name,
-        "country": country,
-        "password": password,
-    }
-
-    user_db = User(user_data)
-    user_db.create_user()
-
-    return RedirectResponse("/login")

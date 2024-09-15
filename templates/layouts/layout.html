@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
   </head>
   <body>
     {% include "components/header.html" %}
-    <main>{% block content %}{% endblock %}</main>
+    <main class="max-w-6xl mx-auto p-2 mt-4">
+      {% block content %}{% endblock %}
+    </main>
+    {% include "components/footer.html" %}
   </body>
 </html>

@@ -1,0 +1,57 @@
+{% extends "./layouts/layout.html" %}
+
+{% block title %}
+{% if campaign %}
+{{ campaign.title }}
+{% else %}
+Campaign
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="rounded-lg shadow-2xl border p-8 flex flex-col gap-4">
+    <div class="flex flex-row justify-between items-center mb-8">
+        <div class="flex flex-row gap-4 items-center ">
+            <a class="rounded-xl border p-3 border-gray-400 hover:bg-slate-100 transition-all"
+                href="{{ url_for('dashboard') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+
+            </a>
+            <div class="text-3xl font-semibold">Campaign</div>
+        </div>
+        <div class="flex justify-end ">
+            <a href="{{ url_for('campaign_form_edit', campaign_id=campaign.id) }}"
+                class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">Edit Campaign</a>
+        </div>
+    </div>
+    <div class="text-sm font-bold text-gray-700">Tile</div>
+    <h1 class="text-3xl font-bold mb-8">{{ campaign.title }}</h1>
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Campaign Details</h2>
+        <dl class="grid grid-cols-2 gap-4">
+            <dt class="font-medium">Start Date:</dt>
+            <dd>{{ campaign.start_date }}</dd>
+            <dt class="font-medium">End Date:</dt>
+            <dd>{{ campaign.end_date }}</dd>
+            <dt class="font-medium">Purpose:</dt>
+            <dd>{{ campaign.purpose }}</dd>
+        </dl>
+    </div>
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Add Media</h2>
+        <div id="media-container">
+            {% include "components/media.html" %}
+        </div>
+    </div>
+    <div>
+        <h2 class="text-2xl font-bold mb-4">Posts</h2>
+        <div id="generate-container">
+            {% include "components/generate.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
