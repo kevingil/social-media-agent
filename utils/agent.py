@@ -1,4 +1,5 @@
 from langchain_openai import OpenAI
+from langchain_anthropic import AnthropicLLM
 from langchain.prompts import StringPromptTemplate
 from langchain import LLMChain
 from PIL import Image
@@ -6,15 +7,15 @@ import os
 from const import ROOT_DIR
 
 
-
 class Agent:
-    def __init__(self, api_key):
-        self.llm = OpenAI(temperature=0, openai_api_key=api_key)
+    def __init__(self):
+        self.vision = OpenAI(model_name="o1-mini")
+        self.llm = AnthropicLLM(model="claude-3.5-sonnet-20240620")
 
     def describe_image(self, image_key):
         print(ROOT_DIR)
         img = Image.open(f"{ROOT_DIR}{image_key}")
-        description = self.llm(f"Describe this image: {img}")
+        description = self.vision(f"Describe this image: {img}")
         return description
 
     def generate_post_text(self, prompt, target_platform, media_description, purpose):

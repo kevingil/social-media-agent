@@ -2,7 +2,7 @@ from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.user import User
 from fastapi.templating import Jinja2Templates
-from utils.check_password import check_user
+from utils.auth import check_user
 from models.campaign import Campaign
 
 router = APIRouter()
