@@ -8,6 +8,7 @@ from utils.agent import Agent
 router = APIRouter()
 templates = Jinja2Templates(directory="./templates")
 
+# Create agent instance
 agent = Agent(OPENAI_API_KEY, ANTHROPIC_API_KEY)
   
 @router.post("/post/generate", name="generate_post", response_class=HTMLResponse)
@@ -18,7 +19,7 @@ async def generate_post(
     media_query = Media({})
     all_media = media_query.get_all_by_campaign(campaign_id)
 
-    # Delete all existing posts for the campaign
+    # Delete all existing posts for the campaign to start over
     post = Post({})
     existing_posts = post.get_all_by_campaign(campaign_id)
     for existing_post in existing_posts:
@@ -28,8 +29,12 @@ async def generate_post(
     for media in all_media:
         image_url = f"{media['key']}"
         target_platform = "Instagram"
-        media_description = agent.describe_image(image_url)
+        
+        # AI description of the image using GPT 4o
+        media_description = agent.describe_image(image_url) 
         print(f"Image Description: \n{media_description}\n")
+        
+        # Text generation using Claude 3 haiku
         post_text = agent.generate_post_text(prompt, target_platform, media_description, purpose)
         
         post_data = {
