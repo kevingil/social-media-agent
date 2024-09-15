@@ -65,9 +65,9 @@ class PostQueries:
 
     def create_post(self, post):
         self._cursor.execute(
-            f"""INSERT INTO post (date, target_platform, text_content, media_id, campaign_id)
-                VALUES('{post['date']}', '{post['target_platform']}', '{post['text_content']}', '{post['media_id']}', {post['campaign_id']})
-            """
+            """INSERT INTO post (date, target_platform, text_content, media_id, campaign_id)
+               VALUES (?, ?, ?, ?, ?)""",
+            (post['date'], post['target_platform'], post['text_content'], post['media_id'], post['campaign_id'])
         )
         self._connection.commit()
 
@@ -82,7 +82,6 @@ class PostQueries:
     def delete_post(self, id):
         self._cursor.execute(f"DELETE FROM post WHERE id = {id}")
         self._connection.commit()
-
 
     def get_all_by_campaign(self, campaign_id):
         data = self._cursor.execute(

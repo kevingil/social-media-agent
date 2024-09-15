@@ -2,7 +2,6 @@ from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from models.campaign import Campaign, Media, Post
-from typing import List
 
 router = APIRouter()
 

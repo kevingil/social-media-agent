@@ -2,14 +2,13 @@ from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models.campaign import Media, Post
-from const import OPENAI_API_KEY
+from const import OPENAI_API_KEY, ANTHROPIC_API_KEY
 from utils.agent import Agent 
 
 router = APIRouter()
 templates = Jinja2Templates(directory="./templates")
 
-api_key = OPENAI_API_KEY
-agent = Agent(api_key)
+agent = Agent(OPENAI_API_KEY, ANTHROPIC_API_KEY)
   
 @router.post("/post/generate", name="generate_post", response_class=HTMLResponse)
 async def generate_post(
@@ -31,14 +30,16 @@ async def generate_post(
         target_platform = "Instagram"
         media_description = agent.describe_image(image_url)
         post_text = agent.generate_post_text(prompt, target_platform, media_description, purpose)
-        test_post_data = {
+        
+        post_data = {
             "campaign_id": campaign_id,
             "date": "2022-01-01 00:00:00",
             "target_platform": target_platform,
             "media_id": media['id'],
-            "text_content": post_text,
+            "text_content": post_text.content
         }
-        new_post = Post(test_post_data)
+        
+        new_post = Post(post_data)
         new_post.create_post()
 
     post_list = post.get_all_by_campaign(campaign_id)
