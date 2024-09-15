@@ -28,6 +28,12 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
         return RedirectResponse(url="/", status_code=302)
     else:
         return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid username or password"})
+    
+    
+@router.get("/logout", name="logout", response_class=RedirectResponse)
+def logout(request: Request):
+    request.session.pop("user")
+    return RedirectResponse(url="/", status_code=302)
 
 @router.get("/dashboard", name="dashboard", response_class=HTMLResponse)
 def user(request: Request):

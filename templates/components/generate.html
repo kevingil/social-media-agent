@@ -1,5 +1,24 @@
+<style>
+    @keyframes breathing {
+
+        0%,
+        100% {
+            opacity: 0.5;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    .breathing-animation {
+        filter: grayscale(60%);
+        animation: breathing 1.5s infinite ease-in-out;
+    }
+</style>
+
 <form hx-post="{{ url_for('generate_post') }}" hx-target="#generate-container" hx-swap="innerHTML" method="post"
-    class="space-y-4">
+    class="space-y-4" id="generate-form">
     <div class="flex flex-col w-full">
         <input type="hidden" name="campaign_id"
             value="{% if campaign  %}{{ campaign.id }}{% else %}{{ campaign_id }}{% endif %}">
@@ -7,18 +26,22 @@
             value="{% if campaign  %}{{ campaign.purpose }}{% else %}{{ campaign_purpose }}{% endif %}">
         <label for="prompt" class="font-medium mb-1">Prompt:</label>
         <textarea class="border border-gray-300 rounded-md px-3 py-2 mb-8" name="prompt" rows="3"
-            required>{% if campaign  %}{{ campaign.prompt }}{% else %}{{ campaign_prompt }}{% endif %}</textarea>
+            required>{% if campaign  %}{{ campaign.user_prompt }}{% else %}{{ campaign_prompt }}{% endif %}</textarea>
     </div>
     <div class="flex justify-end">
-        <button type="submit" class="transition-all flex flex-row gap-2 items-center bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
-              </svg>              
+        <button type="submit"
+            class="transition-all flex flex-row gap-2 items-center bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
             Generate
         </button>
     </div>
 </form>
-<div class="flex flex-col gap-8 mt-8">
+<div id="post-container" class="flex flex-col gap-8 mt-8">
+    {% if post_list %}
     {% for post in post_list %}
     <div class="grid grid-cols-[200px_1fr] gap-4">
         <div class="flex items-start">
@@ -43,4 +66,19 @@
 
     </div>
     {% endfor %}
+    {% else %}
+    <div class="text-gray-600 text-center text-2xl font-bold my-8 mb-12">No posts generated yet</div>
+    {% endif %}
 </div>
+
+<script>
+    document.querySelector('#generate-form').addEventListener('submit', function () {
+        const postContainer = document.getElementById('post-container');
+        postContainer.classList.add('breathing-animation');
+
+        /* After the content is replaced, remove the animation
+        document.addEventListener('htmx:afterSwap', function () {
+            postContainer.classList.remove('breathing-animation');
+        });*/
+    });
+</script>
