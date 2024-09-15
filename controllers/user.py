@@ -25,7 +25,7 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
     user = check_user(username, password)
     if user:
         request.session["user"] = user
-        return RedirectResponse(url="/", status_code=302)
+        return RedirectResponse(url="/dashboard", status_code=302)
     else:
         return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid username or password"})
     

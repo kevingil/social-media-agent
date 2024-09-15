@@ -12,8 +12,12 @@
         <a href="{{ url_for ('dashboard') }}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Start
             Campaign</a>
         {% else %}
+        <div class="flex flex-row gap-2">
         <a href="{{ url_for ('signup') }}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Get
             Started</a>
+            <a href="{{ url_for ('login') }}" class="font-bold text-red-600 py-2 px-4 rounded hover:underline">
+                Login</a>
+        </div>
         {% endif %}
     </div>
     <div class="flex-1">
