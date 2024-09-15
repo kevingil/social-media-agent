@@ -3,9 +3,11 @@
     <div class="flex flex-col w-full">
         <input type="hidden" name="campaign_id"
             value="{% if campaign  %}{{ campaign.id }}{% else %}{{ campaign_id }}{% endif %}">
+            <input type="hidden" name="purpose"
+            value="{% if campaign  %}{{ campaign.purpose }}{% else %}{{ campaign_purpose }}{% endif %}">
         <label for="prompt" class="font-medium mb-1">Prompt:</label>
         <textarea class="border border-gray-300 rounded-md px-3 py-2 mb-8" name="prompt" rows="3"
-            required>{{ campaign.prompt if campaign else campaign_prompt  if campaign_prompt else ''}}</textarea>
+            required>{% if campaign  %}{{ campaign.prompt }}{% else %}{{ campaign_prompt }}{% endif %}</textarea>
     </div>
     <div class="flex justify-end">
         <button type="submit" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">Generate
