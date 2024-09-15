@@ -24,6 +24,14 @@ class CampaignQueries:
         )
         self._connection.commit()
 
+    def update_campaign_purpose(self, id, campaign):
+        self._cursor.execute(
+            f"""UPDATE campaign SET title = '{campaign['title']}', start_date = '{campaign['start_date']}', end_date = '{campaign['end_date']}', purpose = '{campaign['purpose']}', user_id = {campaign['user_id']}
+                WHERE id = {id}
+            """
+        )
+        self._connection.commit()
+
     def update_campaign(self, id, campaign):
         self._cursor.execute(
             f"""UPDATE campaign SET title = '{campaign['title']}', start_date = '{campaign['start_date']}', end_date = '{campaign['end_date']}', purpose = '{campaign['purpose']}', user_prompt = '{campaign['user_prompt']}', user_id = {campaign['user_id']}

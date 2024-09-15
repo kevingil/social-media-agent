@@ -28,18 +28,24 @@ Campaign
         </div>
     </div>
     <div class="text-sm font-bold text-gray-700">Tile</div>
-    <h1 class="text-3xl font-bold mb-8">{{ campaign.title }}</h1>
+    <h1 class="text-3xl font-bold mb-4">{{ campaign.title }}</h1>
 
     <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-4">Campaign Details</h2>
-        <dl class="grid grid-cols-2 gap-4">
-            <dt class="font-medium">Start Date:</dt>
-            <dd>{{ campaign.start_date }}</dd>
-            <dt class="font-medium">End Date:</dt>
-            <dd>{{ campaign.end_date }}</dd>
-            <dt class="font-medium">Purpose:</dt>
-            <dd>{{ campaign.purpose }}</dd>
-        </dl>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2">
+                <div class="font-medium">Purpose:</div>
+                <div class="text-xl">{{ campaign.purpose }}</div>
+            </div>
+            <div>
+                <div class="font-medium">Start Date:</div>
+                <div>{{ campaign.start_date }}</div>
+            </div>
+            <div>
+                <div class="font-medium">End Date:</div>
+                <div>{{ campaign.end_date }}</div>
+            </div>
+            
+        </div>
     </div>
     <div class="mb-8">
         <h2 class="text-2xl font-bold mb-4">Add Media</h2>

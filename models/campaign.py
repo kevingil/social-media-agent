@@ -10,9 +10,12 @@ class Campaign:
 
     def get_campaign(self, id):
         return self.db.get_campaign(id)
-
+    
     def update_campaign(self, id):
         self.db.update_campaign(id, self.campaign_data)
+
+    def update_campaign_purpose(self, id):
+        self.db.update_campaign_purpose(id, self.campaign_data)
 
     def delete_campaign(self, id):
         self.db.delete_campaign(id)

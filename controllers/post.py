@@ -1,7 +1,7 @@
 from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from models.campaign import Media, Post
+from models.campaign import Media, Post, Campaign
 from const import OPENAI_API_KEY, ANTHROPIC_API_KEY
 from utils.agent import Agent 
 
@@ -29,6 +29,7 @@ async def generate_post(
         image_url = f"{media['key']}"
         target_platform = "Instagram"
         media_description = agent.describe_image(image_url)
+        print(f"Image Description: \n{media_description}\n")
         post_text = agent.generate_post_text(prompt, target_platform, media_description, purpose)
         
         post_data = {
@@ -41,7 +42,11 @@ async def generate_post(
         
         new_post = Post(post_data)
         new_post.create_post()
-
+        
+    # Update campaign with prompt 
+    campaign_data = Campaign({}).get_campaign(campaign_id)
+    campaign_data['user_prompt'] = prompt
+    Campaign(campaign_data).update_campaign(campaign_id)
     post_list = post.get_all_by_campaign(campaign_id)
 
     # Render the updated media container

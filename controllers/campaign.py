@@ -32,7 +32,7 @@ async def campaign_form_submit(
     }
     if campaign_id:
         campaign = Campaign(campaign_data)
-        campaign.update_campaign(campaign_id)
+        campaign.update_campaign_purpose(campaign_id)
     else:
         campaign = Campaign(campaign_data)
         campaign.create_campaign()
