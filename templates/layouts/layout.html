@@ -7,10 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@2.0.2"></script>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <style>
+      .shadow-red {
+        box-shadow: 0 5px 25px rgba(255, 37, 37, 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+    </style>
   </head>
   <body class="flex flex-col min-h-screen">
     {% include "components/header.html" %}
-    <main class="w-full max-w-6xl mx-auto p-2 mt-4 flex-grow">
+    <main class="w-full max-w-6xl mx-auto p-2 flex-grow mt-28">
       {% block content %}{% endblock %}
     </main>
     {% include "components/footer.html" %}

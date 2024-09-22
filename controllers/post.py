@@ -2,18 +2,19 @@ from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models.campaign import Media, Post, Campaign
-from const import OPENAI_API_KEY, ANTHROPIC_API_KEY
-from utils.agents.agent import Agent 
+from utils.agent.writter import WrittingAgent
+from utils.agent.vision import VisionAgent
 
 router = APIRouter()
 templates = Jinja2Templates(directory="./templates")
 
 # Create agent instance
-agent = Agent(OPENAI_API_KEY, ANTHROPIC_API_KEY)
+writter = WrittingAgent()
+vision = VisionAgent()
   
 @router.post("/post/generate", name="generate_post", response_class=HTMLResponse)
 async def generate_post(
-    request: Request, campaign_id: int = Form(...), purpose: str = Form(...), prompt: str = Form(...)
+    request: Request, campaign_id: int = Form(...), prompt: str = Form(...)
 ):
     # Get all media for the campaign
     media_query = Media({})
@@ -29,24 +30,29 @@ async def generate_post(
     for media in all_media:
         image_url = f"{media['key']}"
         target_platform = "Instagram"
+        print(f"Image URL: {image_url}")
         
-        # AI description of the image using GPT 4o
-        media_description = agent.describe_image(image_url) 
-        print(f"Image Description: \n{media_description}\n")
+        # AI description of the image
+        media_description = vision.describe_image(image_url) 
+        campaign_data = Campaign({}).get_campaign(campaign_id)
         
-        # Text generation using Claude 3 haiku
-        post_text = agent.generate_post_text(prompt, target_platform, media_description, purpose)
+        # Text generation
+        post_text = writter.generate_post(campaign_data, media_description)
+        
         
         post_data = {
             "campaign_id": campaign_id,
-            "date": "2022-01-01 00:00:00",
+            "post_date": "2022-01-01 00:00:00",
             "target_platform": target_platform,
             "media_id": media['id'],
             "text_content": post_text.content
         }
         
         new_post = Post(post_data)
-        new_post.create_post()
+        post_id = new_post.create_post()
+        media['post_id'] = post_id 
+        media_query.update_media(media['id'], post_id)
+        
         
     # Update campaign with prompt 
     campaign_data = Campaign({}).get_campaign(campaign_id)
@@ -57,5 +63,5 @@ async def generate_post(
     # Render the updated media container
     return templates.TemplateResponse(
         "components/generate.html",
-        {"request": request, "campaign_id": campaign_id, "campaign_purpose": purpose, "post_list": post_list, "campaign_prompt": prompt},
+        {"request": request, "campaign_id": campaign_id, "post_list": post_list, "campaign_prompt": prompt},
     )

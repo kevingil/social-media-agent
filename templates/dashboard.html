@@ -4,13 +4,11 @@
 <!-- fi -->
 {% block content %}
 <div class="rounded-xl shadow-2xl border  p-8 pb-16">
-  <h1 class="text-3xl font-bold mb-8">Hello {{ user_data[2] }} {{ user_data[3] }}</h1>
-
-  <div class="mb-8 flex flex-row justify-between">
-    <div class="text-2xl font-bold mb-4">Ongoing Campaigns</div>
+  <div class="mb-8 flex flex-row justify-between mb-8">
+    <h1 class="text-3xl font-bold">Hi, {{ user_data[2] }}</h1>
     <div class="flex justify-end">
       <a href="{{ url_for('campaign_form') }}"
-        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex flex-row items-center gap-1">
+        class="bg-red-500 hover:bg-red-600 shadow-none hover:shadow-md text-white font-bold py-2 px-4 rounded-full flex flex-row items-center gap-1">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -20,11 +18,41 @@
     </div>
   </div>
 
+  <div class="mb-4 flex flex-row justify-between">
+    <div class="text-xl font-medium">Managed Brands</div>
+  </div>
+
+  <div class="mb-8 flex flex-row gap-4">
+    <div class="flex flex-row gap-4">
+      {% if brands %}
+      {% for brand in brands %}
+      <div class="flex flex-col">
+        <a href="{{ url_for('brand', brand_id=brand.id) }}" class="border rounded px-4 py-2 rounded-xl 
+        hover:border-red-300 shadow-none hover:shadow-md transition-all flex flex-col h-full">
+          <div class="font-medium"> {{ brand.name }}</div>
+          <div> {{ brand.website_url }}</div>
+          <div> {{ brand.description }}</div>
+        </a>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="flex flex-col">
+        <a href="{{ url_for('brand_form') }}" class="border rounded font-bold py-8 px-4 rounded-xl hover:border-red-300 shadow-none hover:shadow-md transition-all
+          flex flex-col items-center justify-center text-gray-600">Add Brand</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-8 flex flex-row justify-between">
+    <div class="text-xl font-medium mb-4">Ongoing Campaigns</div>
+  </div>
+
   <div class="grid grid-cols-2 gap-2">
     {% for campaign in campaigns %}
     <a role="button" class="cursor-pointer" href="{{ url_for('campaign', campaign_id=campaign.id) }}">
-      <div class="bg-white p-4 rounded-lg border mb-4 shadow-none transition-all hover:shadow-md">
-        <h3 class="text-xl font-bold mb-2">{{ campaign.title }}</h3>
+      <div class="bg-white p-4 rounded-lg border mb-4 hover:border-red-300 shadow-none hover:shadow-md transition-all">
+        <p class="text-gray-500 text-sm">For: {{ campaign.brand_name }}</p>
+        <h3 class="text-xl font-bold mb-1">{{ campaign.title }}</h3>
         <p>Start Date: {{ campaign.start_date }}</p>
         <p>End Date: {{ campaign.end_date }}</p>
       </div>

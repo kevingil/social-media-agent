@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from fastapi.staticfiles import StaticFiles
-from controllers import user, campaign, media, post
+from controllers import user, campaign, media, post, brand, dashboard
 from database import Database
 from utils.auth import AuthBackend
 
@@ -22,7 +22,8 @@ app.include_router(user.router)
 app.include_router(campaign.router)
 app.include_router(media.router)
 app.include_router(post.router)
-
+app.include_router(brand.router)
+app.include_router(dashboard.router)
 
 
 if __name__ == "__main__":

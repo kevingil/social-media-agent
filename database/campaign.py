@@ -12,31 +12,60 @@ class CampaignQueries:
         return [dict(zip(columns, row)) for row in data.fetchall()]
 
     def get_campaign(self, id):
-        campaign = self._cursor.execute(f"SELECT * FROM campaign WHERE id = {id}")
+        campaign = self._cursor.execute(
+            """
+        SELECT campaign.*, product_brand.name AS brand_name
+        FROM campaign 
+        JOIN product_brand ON product_brand.id = campaign.product_brand_id
+        WHERE campaign.id = ? """,
+            (id,),
+        )
         columns = [column[0] for column in campaign.description]
         return dict(zip(columns, campaign.fetchone()))
 
     def create_campaign(self, campaign):
         self._cursor.execute(
-            f"""INSERT INTO campaign (title, start_date, end_date, purpose, user_id)
-                VALUES('{campaign['title']}', '{campaign['start_date']}', '{campaign['end_date']}', '{campaign['purpose']}', {campaign['user_id']})
-            """
-        )
-        self._connection.commit()
-
-    def update_campaign_purpose(self, id, campaign):
-        self._cursor.execute(
-            f"""UPDATE campaign SET title = '{campaign['title']}', start_date = '{campaign['start_date']}', end_date = '{campaign['end_date']}', purpose = '{campaign['purpose']}', user_id = {campaign['user_id']}
-                WHERE id = {id}
-            """
+            """INSERT INTO campaign (title, start_date, end_date, product_brand_id, objectives, target_platforms, target_audience, key_messages, hashtags, user_prompt, user_id)
+               VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                campaign["title"],
+                campaign["start_date"],
+                campaign["end_date"],
+                campaign["product_brand_id"],
+                campaign["objectives"],
+                campaign["target_platforms"],
+                campaign["target_audience"],
+                campaign["key_messages"],
+                campaign["hashtags"],
+                campaign["user_prompt"],
+                campaign["user_id"],
+            ),
         )
         self._connection.commit()
 
     def update_campaign(self, id, campaign):
         self._cursor.execute(
-            f"""UPDATE campaign SET title = '{campaign['title']}', start_date = '{campaign['start_date']}', end_date = '{campaign['end_date']}', purpose = '{campaign['purpose']}', user_prompt = '{campaign['user_prompt']}', user_id = {campaign['user_id']}
-                WHERE id = {id}
-            """
+            """UPDATE campaign 
+               SET title = ?, start_date = ?, end_date = ?, product_brand_id = ?, 
+                   objectives = ?, target_platforms = ?, target_audience = ?, 
+                   key_messages = ?, hashtags = ?, user_prompt = ?, user_id = ?
+               WHERE id = ?
+            """,
+            (
+                campaign["title"],
+                campaign["start_date"],
+                campaign["end_date"],
+                campaign["product_brand_id"],
+                campaign["objectives"],
+                campaign["target_platforms"],
+                campaign["target_audience"],
+                campaign["key_messages"],
+                campaign["hashtags"],
+                campaign["user_prompt"],
+                campaign["user_id"],
+                id,
+            ),
         )
         self._connection.commit()
 
@@ -45,7 +74,12 @@ class CampaignQueries:
         self._connection.commit()
 
     def get_all_by_user(self, user_id):
-        data = self._cursor.execute(f"SELECT * FROM campaign WHERE user_id = {user_id}")
+        data = self._cursor.execute(
+            f""" SELECT campaign.*, product_brand.name AS brand_name
+                    FROM campaign 
+                    JOIN product_brand ON product_brand.id = campaign.product_brand_id
+                    WHERE campaign.user_id = {user_id}"""
+        )
         columns = [column[0] for column in data.description]
         return [dict(zip(columns, row)) for row in data.fetchall()]
 
@@ -73,15 +107,21 @@ class PostQueries:
 
     def create_post(self, post):
         self._cursor.execute(
-            """INSERT INTO post (date, target_platform, text_content, media_id, campaign_id)
-               VALUES (?, ?, ?, ?, ?)""",
-            (post['date'], post['target_platform'], post['text_content'], post['media_id'], post['campaign_id'])
+            """INSERT INTO post (post_date, target_platform, text_content, campaign_id)
+               VALUES (?, ?, ?, ?)""",
+            (
+                post["post_date"],
+                post["target_platform"],
+                post["text_content"],
+                post["campaign_id"],
+            ),
         )
         self._connection.commit()
-
+        return self._cursor.lastrowid
+        
     def update_post(self, id, post):
         self._cursor.execute(
-            f"""UPDATE post SET date = '{post['date']}', target_platform = '{post['target_platform']}', text_content = '{post['text_content']}', media_id = '{post['media_id']}', campaign_id = {post['campaign_id']}
+            f"""UPDATE post SET post_date = '{post['post_date']}', target_platform = '{post['target_platform']}', text_content = '{post['text_content']}', campaign_id = {post['campaign_id']}
                 WHERE id = {id}
             """
         )
@@ -95,7 +135,7 @@ class PostQueries:
         data = self._cursor.execute(
             f"""SELECT post.*, media_content.key AS media_key
                 FROM post 
-                JOIN media_content ON post.media_id = media_content.id
+                JOIN media_content ON media_content.post_id = post.id
                 WHERE post.campaign_id = {campaign_id}"""
         )
         columns = [column[0] for column in data.description]
@@ -128,9 +168,9 @@ class MediaQueries:
         )
         self._connection.commit()
 
-    def update_media(self, id, media):
+    def update_media(self, id, post_id):
         self._cursor.execute(
-            f"""UPDATE media_content SET key = '{media['key']}', description = '{media['description']}', post_id = {media['post_id']}, campaign_id = {media['campaign_id']}
+            f"""UPDATE media_content SET post_id = {post_id}
                 WHERE id = {id}
             """
         )

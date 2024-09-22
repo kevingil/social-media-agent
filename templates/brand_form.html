@@ -1,0 +1,130 @@
+{% extends "./layouts/layout.html" %}
+
+{% block title %}
+{% if brand %}
+Edit Brand
+{% else %}
+New Brand
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="rounded-lg shadow-2xl border p-8">
+
+    <div class="flex flex-row justify-between items-center mb-8">
+        <div class="flex flex-row gap-4 items-center ">
+            <a class="rounded-xl border p-3 border-gray-400 hover:bg-slate-100 transition-all"
+                href="{{ url_for('dashboard') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+            </a>
+            <div class="text-3xl font-bold">
+                {% if brand %}
+                Edit Brand
+                {% else %}
+                New Brand
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <form action="{{ url_for('brand_form_submit') }}" method="post" enctype="multipart/form-data"
+        class="flex flex-col gap-6">
+        {% if brand %}
+        <input type="hidden" name="brand_id" value="{{ brand.id }}">
+        {% endif %}
+        <div class="flex flex-col">
+            <label for="name" class="font-medium mb-1">Brand Name:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="name" name="name"
+                value="{{ brand.name if brand else '' }}" required>
+        </div>
+        <div class="flex flex-col">
+            <label for="type" class="font-medium mb-1">Brand Type:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="type" name="type"
+                value="{{ brand.type if brand else '' }}" required>
+        </div>
+        <div class="flex flex-col">
+            <label for="description" class="font-medium mb-1">Description:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="description" name="description" rows="3"
+                required>{{ brand.description if brand else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="industry" class="font-medium mb-1">Industry:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="industry" name="industry"
+                value="{{ brand.industry if brand else '' }}" required>
+        </div>
+        <div class="flex flex-col">
+            <label for="website_url" class="font-medium mb-1">Website URL:</label>
+            <input type="url" class="border border-gray-300 rounded-md px-3 py-2" id="website_url" name="website_url"
+                value="{{ brand.website_url if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="location" class="font-medium mb-1">Location:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="location" name="location"
+                value="{{ brand.location if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="target_audience" class="font-medium mb-1">Target Audience:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="target_audience"
+                name="target_audience" value="{{ brand.target_audience if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="mission_statement" class="font-medium mb-1">Mission Statement:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="mission_statement"
+                name="mission_statement" rows="3">{{ brand.mission_statement if brand else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="unique_selling_proposition" class="font-medium mb-1">Unique Selling Proposition:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="unique_selling_proposition"
+                name="unique_selling_proposition"
+                rows="3">{{ brand.unique_selling_proposition if brand else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="competitors" class="font-medium mb-1">Competitors:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="competitors" name="competitors"
+                value="{{ brand.competitors if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="product_categories" class="font-medium mb-1">Product Categories:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="product_categories"
+                name="product_categories" value="{{ brand.product_categories if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="distribution_channels" class="font-medium mb-1">Distribution Channels:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="distribution_channels"
+                name="distribution_channels" value="{{ brand.distribution_channels if brand else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="key_values" class="font-medium mb-1">Key Values:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="key_values" name="key_values"
+                value="{{ brand.key_values if brand else '' }}">
+        </div>
+        <div class="flex justify-between mt-6">
+            {% if brand %}
+            <form action="{{ url_for('brand_form_delete_submit', brand_id=brand.id) }}" method="post">
+                <button type="submit" class="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-900"
+                    onclick="return confirm('Are you sure you want to delete this brand?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                </button>
+            </form>
+            {% else %}
+            <div></div>
+            {% endif %}
+
+            <button type="submit" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
+                {% if brand %}
+                Update Brand
+                {% else %}
+                Create Brand
+                {% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

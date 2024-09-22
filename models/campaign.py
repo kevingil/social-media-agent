@@ -29,7 +29,7 @@ class Post:
         self.post_data = post_data
 
     def create_post(self):
-        self.db.create_post(self.post_data)
+        return self.db.create_post(self.post_data)
 
     def get_post(self, id):
         return self.db.get_post(id)
@@ -54,8 +54,8 @@ class Media:
     def get_media(self, id):
         return self.db.get_media(id)
 
-    def update_media(self, id):
-        self.db.update_media(id, self.media_data)
+    def update_media(self, id, post_id):
+        self.db.update_media(id, post_id)
 
     def delete_media(self, id):
         self.db.delete_media(id)
