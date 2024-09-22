@@ -30,15 +30,21 @@ async def generate_post(
     for media in all_media:
         image_url = f"{media['key']}"
         target_platform = "Instagram"
-        print(f"Image URL: {image_url}")
         
         # AI description of the image
-        media_description = vision.describe_image(image_url) 
-        campaign_data = Campaign({}).get_campaign(campaign_id)
-        
+        if media['description'] == "":
+            media_description = vision.describe_image(image_url)
+            media_query.add_description(media['id'], media_description)
+            print(f"MediaID: {media['id']}. using existing image description.")
+
+        else: 
+            media_description = media['description']
+            print(f"MediaID: {media['id']}. using existing image description.")
+            
         # Text generation
+        campaign_data = Campaign({}).get_campaign(campaign_id)
         post_text = writter.generate_post(campaign_data, media_description)
-        
+
         
         post_data = {
             "campaign_id": campaign_id,

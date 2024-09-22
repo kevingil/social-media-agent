@@ -6,7 +6,7 @@ from const import GROQ_API_KEY
 class WrittingAgent:
     def __init__(self):
         self.llm = ChatGroq(
-            model="llama-3.1-70b-versatile", api_key=GROQ_API_KEY
+            model="llama-3.1-8b-instant", api_key=GROQ_API_KEY
         )
         
     def generate_draft(self, campaign, media_description):
@@ -80,7 +80,7 @@ class WrittingAgent:
         )
         return critique
     
-    def finalize_post(self, campaign, critique, draft):
+    def final_draft(self, campaign, critique, draft):
         finalize_prompt = ChatPromptTemplate.from_messages(
             [
                 (
@@ -107,10 +107,39 @@ class WrittingAgent:
             }
         )
         return post
+    
+    def finalize_post(self, draft):
+        finalize_prompt = ChatPromptTemplate.from_messages(
+            [
+                (
+                    "system",
+                    """You're a text processor that will extract the final draft and clean it up for social media.
+                    You need to remove the markdown formatting and any other extraneous text from the draft.
+                    """,
+                ),
+                (
+                    "human",
+                    """Draft: {draft}
+                    """,
+                )
+            ]
+        )
+        finalize_chain = finalize_prompt | self.llm
+        post = finalize_chain.invoke(
+            {
+                "draft": draft
+            }
+        )
+        return post
 
     def generate_post(self, campaign, media_description):
         draft = self.generate_draft(campaign, media_description)
+        print("\n\nDraft: ", draft)
         critique = self.review_draft(campaign, draft)
-        final_output = self.finalize_post(campaign, critique, draft)
-        return final_output
+        print("\n\nCritique: ", critique)
+        final_draft = self.final_draft(campaign, critique, draft)
+        print("\n\nFinal Draft: ", final_draft)
+        output = self.finalize_post(final_draft)
+        print("\n\nFinal Output: ", output)
+        return output
 

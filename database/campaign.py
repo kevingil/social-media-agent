@@ -175,6 +175,15 @@ class MediaQueries:
             """
         )
         self._connection.commit()
+    
+    def add_description(self, id, description):
+        self._cursor.execute(
+            """UPDATE media_content 
+            SET description = ? 
+            WHERE id = ?""", 
+            (description, id)
+        )
+        self._connection.commit()
 
     def delete_media(self, id):
         self._cursor.execute(f"DELETE FROM media_content WHERE id = {id}")

@@ -56,6 +56,9 @@ class Media:
 
     def update_media(self, id, post_id):
         self.db.update_media(id, post_id)
+        
+    def add_description(self, id, description):
+        self.db.add_description(id, description)
 
     def delete_media(self, id):
         self.db.delete_media(id)
