@@ -11,7 +11,7 @@ CREATE TABLE users (
 -- Create the product_brand table
 CREATE TABLE product_brand (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
     type TEXT NOT NULL,
     description TEXT,
     industry TEXT,

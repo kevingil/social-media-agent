@@ -1,0 +1,85 @@
+{% extends "./layouts/layout.html" %}
+
+{% block title %}
+{% if brand %}
+{{ brand.name }}
+{% else %}
+Brand
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="rounded-lg shadow-2xl border p-8 flex flex-col gap-4">
+    <div class="flex flex-row justify-between items-center mb-8">
+        <div class="flex flex-row gap-4 items-center ">
+            <a class="rounded-xl border p-3 border-gray-400 hover:bg-slate-100 transition-all"
+                href="{{ url_for('dashboard') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+            </a>
+            <div class="text-3xl font-semibold">Brand</div>
+        </div>
+        <div class="flex justify-end ">
+            <a href="{{ url_for('brand_form_edit', brand_id=brand.id) }}"
+                class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">Edit Brand</a>
+        </div>
+    </div>
+    <div class="text-sm font-bold text-gray-700">Brand Name</div>
+    <h1 class="text-3xl font-bold mb-4">{{ brand.name }}</h1>
+
+    <div class="mb-8">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2">
+                <div class="font-medium">Description:</div>
+                <div class="text-xl">{{ brand.description }}</div>
+            </div>
+            <div>
+                <div class="font-medium">Type:</div>
+                <div>{{ brand.type }}</div>
+            </div>
+            <div>
+                <div class="font-medium">Industry:</div>
+                <div>{{ brand.industry }}</div>
+            </div>
+            <div>
+                <div class="font-medium">Website:</div>
+                <div><a href="{{ brand.website_url }}" target="_blank" class="text-blue-600 hover:underline">{{ brand.website_url }}</a></div>
+            </div>
+            <div>
+                <div class="font-medium">Location:</div>
+                <div>{{ brand.location }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Target Audience:</div>
+                <div>{{ brand.target_audience }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Mission Statement:</div>
+                <div>{{ brand.mission_statement }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Unique Selling Proposition:</div>
+                <div>{{ brand.unique_selling_proposition }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Competitors:</div>
+                <div>{{ brand.competitors }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Product Categories:</div>
+                <div>{{ brand.product_categories }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Distribution Channels:</div>
+                <div>{{ brand.distribution_channels }}</div>
+            </div>
+            <div class="col-span-2">
+                <div class="font-medium">Key Values:</div>
+                <div>{{ brand.key_values }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

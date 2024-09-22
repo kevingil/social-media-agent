@@ -4,57 +4,57 @@
 <!-- fi -->
 {% block content %}
 
-<div class="flex flex-row">
+<div class="flex flex-row mb-12">
     <div class="text-left flex-1 py-10">
-        <h2 class="text-4xl font-bold mb-4">Social Agent AI</h2>
+        <h2 class="text-4xl font-semibold text-red-600 mb-4">Your AI Marketing Assistant</h2>
         <p class="text-lg mb-8">Autonomous agents for social media marketing</p>
         {% if request.session.get('user') %}
         <a href="{{ url_for ('dashboard') }}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Start
             Campaign</a>
         {% else %}
-        <div class="flex flex-row gap-2">
-        <a href="{{ url_for ('signup') }}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Get
-            Started</a>
-            <a href="{{ url_for ('login') }}" class="font-bold text-red-600 py-2 px-4 rounded hover:underline">
+        <div class="flex flex-row gap-4">
+            <a href="{{ url_for ('signup') }}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Get
+                Started</a>
+            <a href="{{ url_for ('login') }}" class="font-bold text-red-600 border border-red-600 py-2 px-4 rounded hover:bg-zinc-50/50">
                 Login</a>
         </div>
         {% endif %}
     </div>
     <div class="flex-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-            class="fill-red-600 text-red-600 flex-1 py-10 w-full max-w-64 mx-auto">
-            <path
-                d="M181.3 32.4c17.4 2.9 29.2 19.4 26.3 36.8L197.8 128l95.1 0 11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3s29.2 19.4 26.3 36.8L357.8 128l58.2 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-68.9 0L325.8 320l58.2 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-68.9 0-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8l9.8-58.7-95.1 0-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8L90.2 384 32 384c-17.7 0-32-14.3-32-32s14.3-32 32-32l68.9 0 21.3-128L64 192c-17.7 0-32-14.3-32-32s14.3-32 32-32l68.9 0 11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3zM187.1 192L165.8 320l95.1 0 21.3-128-95.1 0z" />
-        </svg>
+        <div class="flex object-fit p-4 shadow-red rounded-lg">
+            <img src="/static/screenshots/screenshot.png">
+        </div>
     </div>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-    <div class="bg-white shadow-md rounded p-6">
-        <h3 class="text-xl font-bold mb-2">Beat The Algorithm</h3>
+    <div class="border border-red-100 rounded-lg p-6">
+        <h3 class="text-xl font-medium mb-2">Beat The Algorithm</h3>
         <p class="text-gray-700">Leverage the power of AI to optimize your advertising efforts. Our platform uses
             advanced algorithms to target the most relevant audiences, ensuring your ads are seen by those who are most
             likely to convert. Increase your ROI with smart, data-driven advertising strategies.</p>
     </div>
 
-    <div class="bg-white shadow-md rounded p-6">
-        <h3 class="text-xl font-bold mb-2">Prompte Your Bussiness</h3>
+    <div class="border border-red-100 rounded-lg p-6">
+        <h3 class="text-xl font-medium mb-2">Prompte Your Bussiness</h3>
         <p class="text-gray-700">
             Unlock your brand's full potential. Our expert agents work across various
-            channels to create tailored marketing campaigns, ensuring your products and services reach the right audience. Whether you're launching
-            a new product or scaling an existing business, we leverage data-driven insights to maximize visibility and drive sales.
+            channels to create tailored marketing campaigns, ensuring your products and services reach the right
+            audience. Whether you're launching
+            a new product or scaling an existing business, we leverage data-driven insights to maximize visibility and
+            drive sales.
         </p>
     </div>
-    <div class="bg-white shadow-md rounded p-6">
-        <h3 class="text-xl font-bold mb-2">Generate Content</h3>
+    <div class="border border-red-100 rounded-lg p-6">
+        <h3 class="text-xl font-medium mb-2">Write Content Fast</h3>
         <p class="text-gray-700">Struggling to create engaging content? Our AI content generator can help. From blog
             posts to social media updates, our platform generates high-quality, SEO-optimized content tailored to your
             brand's voice and audience preferences. Save time and resources while maintaining a consistent content
             strategy.</p>
     </div>
-    <div class="bg-white shadow-md rounded p-6">
-        <h3 class="text-xl font-bold mb-2">Marketing Campaigns</h3>
+    <div class="border border-red-100 rounded-lg p-6">
+        <h3 class="text-xl font-medium mb-2">Marketing Campaigns</h3>
         <p class="text-gray-700">Our AI-driven social media campaigns are designed to maximize your online presence. We
             create engaging content, schedule posts, and analyze performance to ensure your brand reaches the right
             audience at the right time.</p>

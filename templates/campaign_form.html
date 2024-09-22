@@ -34,7 +34,7 @@ Create Campaign
         {% endif %}
     </div>
     <form action="{{ url_for('campaign_form') }}" method="post" enctype="multipart/form-data"
-        class="flex flex-col gap-12">
+        class="flex flex-col gap-6">
         {% if campaign %}
         <input type="hidden" name="campaign_id" value="{{ campaign.id }}">
         {% endif %}
@@ -55,13 +55,47 @@ Create Campaign
                     value="{{ campaign.end_date if campaign else '' }}" required>
             </div>
         </div>
-
         <div class="flex flex-col">
-            <label for="purpose" class="font-medium mb-1">Product:</label>
-            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="purpose" name="purpose" rows="3"
-                required>{{ campaign.purpose if campaign else '' }}</textarea>
+            <label for="product_brand_id" class="font-medium mb-1">Product/Brand:</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2" id="product_brand_id" name="product_brand_id" required>
+                <option value="">Select a product/brand</option>
+                {% for product_brand in product_brands %}
+                <option value="{{ product_brand.id }}" {% if campaign and campaign.product_brand_id == product_brand.id %}selected{% endif %}>
+                    {{ product_brand.name }}
+                </option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="flex justify-between">
+        <div class="flex flex-col">
+            <label for="objectives" class="font-medium mb-1">Campaign Objectives:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="objectives" name="objectives" rows="3"
+                required>{{ campaign.objectives if campaign else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="target_platforms" class="font-medium mb-1">Target Platforms:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="target_platforms" name="target_platforms"
+                value="{{ campaign.target_platforms if campaign else '' }}" required>
+        </div>
+        <div class="flex flex-col">
+            <label for="target_audience" class="font-medium mb-1">Target Audience:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="target_audience" name="target_audience" rows="3">
+                {{ campaign.target_audience if campaign else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="key_messages" class="font-medium mb-1">Key Messages:</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="key_messages" name="key_messages" rows="3">
+                {{ campaign.key_messages if campaign else '' }}</textarea>
+        </div>
+        <div class="flex flex-col">
+            <label for="hashtags" class="font-medium mb-1">Hashtags:</label>
+            <input type="text" class="border border-gray-300 rounded-md px-3 py-2" id="hashtags" name="hashtags"
+                value="{{ campaign.hashtags if campaign else '' }}">
+        </div>
+        <div class="flex flex-col">
+            <label for="user_prompt" class="font-medium mb-1">User Prompt (Optional):</label>
+            <textarea class="border border-gray-300 rounded-md px-3 py-2" id="user_prompt" name="user_prompt" rows="3">{{ campaign.user_prompt if campaign else '' }}</textarea>
+        </div>
+        <div class="flex justify-between mt-6">
             {% if campaign %}
             <a href="{{ url_for('campaign', campaign_id=campaign.id) }}"
                 class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
@@ -73,8 +107,6 @@ Create Campaign
                 Cancel
             </a>
             {% endif %}
-
-
             <button type="submit" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
                 {% if campaign %}
                 Update Campaign
@@ -83,7 +115,6 @@ Create Campaign
                 {% endif %}
             </button>
         </div>
-
     </form>
 </div>
 {% endblock %}
