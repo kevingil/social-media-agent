@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models.campaign import Media, Post, Campaign
 from const import OPENAI_API_KEY, ANTHROPIC_API_KEY
-from utils.agent import Agent 
+from utils.agents.agent import Agent 
 
 router = APIRouter()
 templates = Jinja2Templates(directory="./templates")

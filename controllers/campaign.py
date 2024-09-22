@@ -7,6 +7,14 @@ router = APIRouter()
 
 templates = Jinja2Templates(directory="./templates")
 
+@router.get("/dashboard", name="dashboard", response_class=HTMLResponse)
+def user(request: Request):
+    if "user" in request.session:
+        user = request.session["user"]
+        campaigns = Campaign({}).get_all_by_user(user[0])
+        return templates.TemplateResponse("dashboard.html", { "request": request,  "user_data": user, "campaigns": campaigns})
+    else:
+        return RedirectResponse("/login")
 
 # For new campaigns
 @router.get(

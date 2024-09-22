@@ -18,8 +18,8 @@ class UserQueries:
 
     def create_user_db(self, user):
         self._cursor.execute(
-            f"""INSERT INTO users (username, first_name, last_name, country, password)
-                VALUES('{user['username']}', '{user['first_name']}', '{user['last_name']}', '{user['country']}', '{user['password']}')
+            f"""INSERT INTO users (username, first_name, last_name, password)
+                VALUES('{user['username']}', '{user['first_name']}', '{user['last_name']}', '{user['password']}')
             """
         )
         self._connection.commit()

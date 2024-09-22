@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from models.user import User
 from fastapi.templating import Jinja2Templates
 from utils.auth import check_user
-from models.campaign import Campaign
 
 router = APIRouter()
 
@@ -35,15 +34,6 @@ def logout(request: Request):
     request.session.pop("user")
     return RedirectResponse(url="/", status_code=302)
 
-@router.get("/dashboard", name="dashboard", response_class=HTMLResponse)
-def user(request: Request):
-    if "user" in request.session:
-        user = request.session["user"]
-        campaigns = Campaign({}).get_all_by_user(user[0])
-        return templates.TemplateResponse("dashboard.html", { "request": request,  "user_data": user, "campaigns": campaigns})
-    else:
-        return RedirectResponse("/login")
-
 @router.get("/signup", name="signup", response_class=HTMLResponse)
 def signup(request: Request):
     return templates.TemplateResponse("signup.html", {"request": request})
@@ -54,14 +44,12 @@ def user_processing(
     username: str = Form(),
     first_name: str = Form(),
     last_name: str = Form(),
-    country: str = Form(),
     password: str = Form(),
 ):
     user_data = {
         "username": username,
         "first_name": first_name,
         "last_name": last_name,
-        "country": country,
         "password": password,
     }
 
