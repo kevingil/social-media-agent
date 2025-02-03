@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from const import GROQ_API_KEY
 
 
+
 class WrittingAgent:
     def __init__(self):
         self.llm = ChatGroq(
