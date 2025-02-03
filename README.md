@@ -9,7 +9,13 @@ pip install -r requirements.txt
 python main.py
 ```
 
-![screenshot](/static/screenshots/Screenshot1.png)
+![screenshot](/static/screenshots/screenshot.png)
+
+![screenshot](/static/screenshots/screenshot1.png)
+
+![screenshot](/static/screenshots/screenshot2.png)
+
+![screenshot](/static/screenshots/screenshot3.png)
 
 
 
