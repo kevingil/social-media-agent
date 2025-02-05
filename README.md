@@ -11,11 +11,11 @@ python main.py
 
 ![screenshot](/static/screenshots/screenshot.png)
 
-![screenshot](/static/screenshots/screenshot1.png)
+![screenshot](/static/Screenshots/screenshot1.png)
 
-![screenshot](/static/screenshots/screenshot2.png)
+![screenshot](/static/Screenshots/screenshot2.png)
 
-![screenshot](/static/screenshots/screenshot3.png)
+![screenshot](/static/Screenshots/screenshot3.png)
 
 
 
